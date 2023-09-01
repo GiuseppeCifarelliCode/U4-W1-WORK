@@ -21,8 +21,8 @@ namespace Imposta
             Console.WriteLine("3. ESCI");
             Console.WriteLine("=================MENU================");
 
-            int option = int.Parse(Console.ReadLine());
             try {
+                int option = int.Parse(Console.ReadLine());
                 if (option < 0 || option > 3)
                 {
                     Console.WriteLine("L'opzione scelta non esiste");
@@ -43,7 +43,7 @@ namespace Imposta
                             MostraMenu();
                             break;
                         case 3:
-                            Console.WriteLine("Premi INVIO per uscire dal programma");
+                            Environment.Exit(0);
                             break;
                     }
                 }
@@ -68,47 +68,47 @@ namespace Imposta
             string residenza = Console.ReadLine();
             Console.WriteLine("Codice Fiscale:");
             string codiceFiscale = Console.ReadLine();
+            foreach(Contribuente contribuente in listaContribuenti)
+            {
+                if(codiceFiscale == contribuente.CodiceFiscale)
+                {
+                    Console.WriteLine("Contribuente già inserito!");
+                    MostraMenu();
+                }
+            }
 
             Console.WriteLine("Reddito Annuale:");
             double redditoAnnuale = double.Parse(Console.ReadLine());
             contribuente = new Contribuente(nome, cognome, dataNascita, sesso, residenza, codiceFiscale, redditoAnnuale);            
         }    
         
-        public static double CalcoloImposta()
+        public static void CalcoloImposta()
         {
             if( contribuente.RedditoAnnuale <= 15000 && contribuente.RedditoAnnuale >= 0)
             {
                 contribuente.Imposta = contribuente.RedditoAnnuale * 0.23;
-                listaContribuenti.Add(contribuente);
-                return contribuente.Imposta;
+                listaContribuenti.Add(contribuente);                
             }
             else if(contribuente.RedditoAnnuale > 15000 && contribuente.RedditoAnnuale <= 28000)
             {
                 contribuente.Imposta = 3450 + (contribuente.RedditoAnnuale - 15000) * 0.27;
-                listaContribuenti.Add(contribuente);
-                return contribuente.Imposta;           
+                listaContribuenti.Add(contribuente);          
             }
             else if( contribuente.RedditoAnnuale > 28000 && contribuente.RedditoAnnuale <= 55000)
             {
                 contribuente.Imposta = 6960 + (contribuente.RedditoAnnuale - 28000) * 0.38;
                 listaContribuenti.Add(contribuente);
-                return contribuente.Imposta;
             }
             else if (contribuente.RedditoAnnuale > 55000 && contribuente.RedditoAnnuale <= 75000)
             {
                 contribuente.Imposta = 17220 + (contribuente.RedditoAnnuale - 55000) * 0.41;
                 listaContribuenti.Add(contribuente);
-                return contribuente.Imposta;
             }
             else if (contribuente.RedditoAnnuale > 75000)
             {
                 contribuente.Imposta = 25420 + (contribuente.RedditoAnnuale - 75000) * 0.43;
                 listaContribuenti.Add(contribuente);
-                return contribuente.Imposta;
             }
-            else { Console.WriteLine("Inserito un reddito negativo");
-                return contribuente.Imposta;
-                 }
         }
 
         public static void MostraContribuente()

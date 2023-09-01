@@ -11,7 +11,6 @@ namespace Imposta
         static void Main(string[] args)
         {
             INPS.MostraMenu();
-            Console.ReadLine();
         }
     }
 }
